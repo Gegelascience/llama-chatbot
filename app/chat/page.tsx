@@ -27,13 +27,18 @@ export default function Chat() {
     }
    
     return (
-      <div>
-
-        <form onSubmit={onSubmit}>
-          <input className='border-2 border-black' type="text" name="prompt" />
-          <button className='border-2 border-black' type="submit">Ask IA</button>
+      <div className='flex flex-col items-center mt-10'>
+        <form className='grid grid-flow-row grid-cols-6 gap-4' onSubmit={onSubmit}>
+          <textarea className='border-2 border-black rounded-md col-span-5' name="prompt" cols={50} />
+          <button className='bg-sky-500 hover:bg-sky-700 text-white px-2 py-1 rounded-md col-span-1' type="submit">Ask IA</button>
         </form>
-        <p>{data?data.response:""}</p>
+        {isLoading &&
+          <p>Loading...</p>
+        }
+        {!isLoading &&
+          <p>{data?data.response:""}</p>
+        }
+        
           
       </div>
     )
