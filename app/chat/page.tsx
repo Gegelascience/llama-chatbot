@@ -1,35 +1,40 @@
 'use client'
 
 import { IAOutputAPIInterface } from '@/services/ollama/types'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, FormEvent } from 'react'
 
 export default function Chat() {
     const [data, setData] = useState<IAOutputAPIInterface | null>(null)
     const [isLoading, setLoading] = useState(true)
+
+
+    async function onSubmit(event: FormEvent<HTMLFormElement>) {
+      event.preventDefault()
    
-    useEffect(() => {
-      fetch('/api/ia',{
+      const formData = new FormData(event.currentTarget)
+      setLoading(true)
+      const res = await fetch('/api/ia',{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({prompt: 'Ceci est un test'})
+        body: JSON.stringify({prompt: formData.get('prompt')})
       })
-        .then((res) => res.json())
-        .then((data) => {
-          setData(data as IAOutputAPIInterface)
-          setLoading(false)
-        })
-    }, [])
-   
-    if (isLoading) return <p>Loading...</p>
-    if (!data) return <p>No profile data</p>
+      const iaAnswer = await res.json()
+      setData(iaAnswer as IAOutputAPIInterface)
+      setLoading(false)
+
+    }
    
     return (
       <div>
-        <p>Ceci est un test</p>
-        <p>{data.response}</p>
-        
+
+        <form onSubmit={onSubmit}>
+          <input className='border-2 border-black' type="text" name="prompt" />
+          <button className='border-2 border-black' type="submit">Ask IA</button>
+        </form>
+        <p>{data?data.response:""}</p>
+          
       </div>
     )
 }
