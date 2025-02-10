@@ -37,4 +37,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Prerequis
 
-Avoir Ollama de lancer avec llama3.2
+Avoir Ollama de lancer avec llama3.2 et mistral

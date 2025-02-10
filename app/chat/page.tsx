@@ -17,11 +17,12 @@ export default function Chat() {
    
       const formData = new FormData(event.currentTarget)
       const requestUser = formData.get('prompt');
-        chatMsgs.push({
-          msg: requestUser? requestUser.toString(): "", 
-          isUser: true, 
-          index: chatMsgs.length
-        })
+      const model = formData.get('model');
+      chatMsgs.push({
+        msg: requestUser? requestUser.toString(): "", 
+        isUser: true, 
+        index: chatMsgs.length
+      })
 
       
       setLoading(true)
@@ -30,7 +31,10 @@ export default function Chat() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({prompt: formData.get('prompt')})
+        body: JSON.stringify({
+          prompt: formData.get('prompt'),
+          model:model
+        })
       })
       const iaAnswer = await res.json() as IAOutputAPIInterface
       setAnswer(iaAnswer.response)
@@ -55,7 +59,13 @@ export default function Chat() {
         </div>
         
         <form className='grid grid-flow-row grid-cols-6 gap-4 bottom-0' onSubmit={onSubmit}>
-          <textarea className='border-2 border-black rounded-md col-span-5' name="prompt" cols={50} />
+          
+          <input type="radio" required id="llama" name="model" value="llama3.2"/>
+          <label htmlFor="llama">Llama 3.2</label><br/>
+          <input type="radio" id="mistral" name="model" value="mistral"/>
+          <label htmlFor="mistral">Mistral</label><br/>
+          
+          <textarea className='border-2 border-black rounded-md col-span-5' name="prompt" cols={50} />        
           <button className='bg-sky-500 hover:bg-sky-700 text-white px-2 py-1 rounded-md col-span-1' type="submit">Ask IA</button>
         </form>
         

@@ -12,6 +12,9 @@ export async function POST(req: Request) {
     if (req.body) {
         let data = await req.json() as IAInputAPIInterface;
         const iaClient = new OllamaClient();
+        if (data.model !== undefined) {
+            iaClient.iaModel = data.model;
+        }
         const response = await iaClient.generateAnswer(data.prompt);
 
         return new Response(JSON.stringify(response), {

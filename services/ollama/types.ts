@@ -12,6 +12,7 @@ export interface OllamaRequestPromptInterface {
 
 export interface IAInputAPIInterface {
     prompt: string;
+    model?: string;
 }
 
 export interface IAOutputAPIInterface {
