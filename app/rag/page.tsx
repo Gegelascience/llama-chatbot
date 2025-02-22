@@ -2,9 +2,10 @@
 
 import ChatUI from '@/components/ChatUI';
 
-export default function ChatSimple() {
+export default function ChatRag() {
    
     return (
-      < ChatUI mode="simple" />
+
+        < ChatUI mode="rag" />
     )
 }
